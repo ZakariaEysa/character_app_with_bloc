@@ -16,6 +16,17 @@ class CharactersWebServices{
   }
   Future<List<dynamic>> getAllCharacters() async {
     try {
+      // List<dynamic> characters =[];
+      // String base=baseUrl;
+      // for (int i = 1; i <= 28; i++) {
+      //
+      //   Response response = await dio.get(base+i.toString());
+      //   characters.add(response.data);
+      //
+      // }
+      // return characters;
+
+
       Response response = await dio.get(baseUrl);
 
 

@@ -1,11 +1,14 @@
-import 'package:character_app_with_bloc/constants/my_colors.dart';
 import 'package:character_app_with_bloc/data/models/character_model.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import '../../constants/my_colors.dart';
 
 class CharacterItem extends StatelessWidget {
-  final CharacterModel character;
+  // final Characters characters;
 
   const CharacterItem({super.key, required this.character});
+
+  final  CharacterModel character;
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +17,7 @@ class CharacterItem extends StatelessWidget {
       margin: const EdgeInsetsDirectional.fromSTEB(8, 8, 8, 8),
       padding: const EdgeInsetsDirectional.all(4),
       decoration: BoxDecoration(
-        color: MyColors.myWhite,
+        color: Colors.white,
         borderRadius: BorderRadius.circular(8),
       ),
       child: GridTile(
@@ -25,14 +28,15 @@ class CharacterItem extends StatelessWidget {
           alignment: Alignment.bottomCenter,
           child: Text(
             character.name,
-            textAlign: TextAlign.center,
             style: const TextStyle(
-                height: 1.3,
-                fontSize: 16,
-                color: MyColors.myWhite,
-                fontWeight: FontWeight.bold),
+              height: 1.3,
+              fontSize: 16,
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+            ),
             overflow: TextOverflow.ellipsis,
             maxLines: 2,
+            textAlign: TextAlign.left,
           ),
         ),
         child: Container(
@@ -42,9 +46,9 @@ class CharacterItem extends StatelessWidget {
                 width: double.infinity,
                 height: double.infinity,
                 fit: BoxFit.cover,
-                placeholder: 'assets/images/loading.gif',
+                placeholder: 'assets/images/Loading3.gif',
                 image: character.image)
-                : Image.asset('assets/images/Screenshot_1713297862.png')),
+                : Image.asset('assets/images/placeHolder.png')),
       ),
     );
   }

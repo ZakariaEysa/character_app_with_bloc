@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import 'business_logic/bloc/simple_bloc_observer.dart';
 import 'business_logic/cubit/character_cubit.dart';
 import 'constants/strings.dart';
 import 'data/repository/characters_repository.dart';
@@ -13,9 +14,11 @@ class AppRouter {
   late CharacterCubit characterCubit;
 
   AppRouter() {
+    Bloc.observer = SimpleBlocObserver();
     charactersRepository =
         CharactersRepository(charactersWebServices: CharactersWebServices());
     characterCubit = CharacterCubit(charactersRepository);
+
   }
 
   Route? generateRoute(RouteSettings setting) {

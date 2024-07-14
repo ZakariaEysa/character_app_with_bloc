@@ -7,22 +7,25 @@ import '../../data/models/character_model.dart';
 part 'character_state.dart';
 
 class CharacterCubit extends Cubit<CharacterState> {
-  final CharactersRepository charactersRepository;
+  final CharactersRepository  charactersRepository ;
+  List<CharacterModel> characters = [];
 
-  CharacterCubit(this.charactersRepository) : super(CharacterInitial());
+  CharacterCubit(
+      this.charactersRepository,
+      ) : super(CharacterInitial());
 
-   List<CharacterModel> characters=[] ;
+  List<CharacterModel> getAllCharacters() {
 
-  List< CharacterModel> getAllCharacters () {
     emit(CharacterLoading());
-    charactersRepository.getAllCharacters().then((characters) {
-      emit(CharacterSuccess(characterList: characters));
-      this.characters=characters;
-    });
-    emit(CharacterSuccess(characterList: characters));
+    charactersRepository.getAllCharacters().then(
+          (characters) {
+        emit(CharacterSuccess( characterList:characters));
+
+        this.characters = characters;
+      },
+    );
     return characters;
   }
-
 
 
 
