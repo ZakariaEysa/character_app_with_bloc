@@ -1,5 +1,5 @@
 
-import 'package:character_app_with_bloc/constants/strings.dart';
+import '../../constants/strings.dart';
 import 'package:dio/dio.dart';
 
 class CharactersWebServices{

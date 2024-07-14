@@ -1,5 +1,5 @@
 import 'package:bloc/bloc.dart';
-import 'package:character_app_with_bloc/data/repository/characters_repository.dart';
+import '../../data/repository/characters_repository.dart';
 import 'package:meta/meta.dart';
 
 import '../../data/models/character_model.dart';

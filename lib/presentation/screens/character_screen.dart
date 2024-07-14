@@ -1,8 +1,9 @@
-import 'package:character_app_with_bloc/business_logic/cubit/character_cubit.dart';
-import 'package:character_app_with_bloc/constants/my_colors.dart';
-import 'package:character_app_with_bloc/presentation/widgets/character_item.dart';
+import '../../business_logic/cubit/character_cubit.dart';
+import '../../constants/my_colors.dart';
+import '../widgets/character_item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../data/models/character_model.dart';
 
 class CharacterScreen extends StatefulWidget {
   const CharacterScreen({super.key});
@@ -12,7 +13,10 @@ class CharacterScreen extends StatefulWidget {
 }
 
 class _CharactersScreenState extends State<CharacterScreen> {
-  late List allCharacters;
+  late List<CharacterModel> allCharacters;
+  late List<CharacterModel> searchedCharactersList;
+  bool isSearching = false;
+  final searchTextController = TextEditingController();
 
   @override
   void initState() {
@@ -20,6 +24,80 @@ class _CharactersScreenState extends State<CharacterScreen> {
     super.initState();
 
     BlocProvider.of<CharacterCubit>(context).getAllCharacters();
+  }
+
+  Widget buildSearchField() {
+    return TextField(
+      controller: searchTextController,
+      cursorColor: MyColors.myGrey,
+      decoration: const InputDecoration(
+        hintText: "Find your Character",
+        hintStyle: TextStyle(color: MyColors.myGrey, fontSize: 18),
+        border: InputBorder.none,
+      ),
+      style: const TextStyle(color: MyColors.myGrey, fontSize: 18),
+      onChanged: (searchedText) {
+        addSearchedItemsToSearchedList(searchedText);
+      },
+    );
+  }
+
+  addSearchedItemsToSearchedList(String searchedText) {
+    searchedCharactersList = allCharacters
+        .where(
+          (character) => character.name.toLowerCase().startsWith(
+                searchedText.toLowerCase(),
+              ),
+        )
+        .toList();
+    setState(() {});
+  }
+
+  List<Widget> buildAppBarActions() {
+    if (isSearching) {
+      return [
+        IconButton(
+            onPressed: () {
+              clearSearch();
+              Navigator.pop(context);
+            },
+            icon: const Icon(
+              Icons.clear,
+              color: MyColors.myGrey,
+            ))
+      ];
+    } else {
+      return [
+        IconButton(
+            onPressed: () {
+              startSearch();
+            },
+            icon: const Icon(
+              Icons.search,
+              color: MyColors.myGrey,
+            ))
+      ];
+    }
+  }
+
+  void startSearch() {
+    ModalRoute.of(context)!
+        .addLocalHistoryEntry(LocalHistoryEntry(onRemove: stopSearch));
+
+    setState(() {
+      isSearching = true;
+    });
+  }
+
+  void stopSearch() {
+    setState(() {
+      isSearching = false;
+      clearSearch();
+    });
+  }
+
+  void clearSearch() {
+    searchTextController.clear();
   }
 
   Widget buildBlocWidget() {
@@ -62,27 +140,41 @@ class _CharactersScreenState extends State<CharacterScreen> {
             childAspectRatio: 2 / 3,
             crossAxisSpacing: 1,
             mainAxisSpacing: 1),
-        itemCount: allCharacters.length,
+        itemCount: searchTextController.text.isNotEmpty
+            ? searchedCharactersList.length
+            : allCharacters.length,
         shrinkWrap: true,
         physics: const ClampingScrollPhysics(),
         padding: EdgeInsets.zero,
         // scrollDirection: Axis.vertical,
         itemBuilder: (context, index) {
           return CharacterItem(
-            character: allCharacters[index],
+            character: searchTextController.text.isNotEmpty
+                ? searchedCharactersList[index]
+                : allCharacters[index],
           );
         });
+  }
+
+  Widget buildAppBarTitle() {
+    return const Text(
+      "Characters",
+      style: TextStyle(color: MyColors.myGrey),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading: isSearching
+            ? const BackButton(
+                color: MyColors.myGrey,
+              )
+            : Container(),
         backgroundColor: MyColors.myYellow,
-        title: const Text(
-          "Characters",
-          style: TextStyle(color: MyColors.myGrey),
-        ),
+        title: isSearching ? buildSearchField() : buildAppBarTitle(),
+        actions: buildAppBarActions(),
       ),
       body: buildBlocWidget(),
     );
