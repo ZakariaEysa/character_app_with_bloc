@@ -1,7 +1,6 @@
 import 'package:animated_text_kit/animated_text_kit.dart';
 import '../../constants/my_colors.dart';
 import '../../data/models/character_model.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -48,6 +47,15 @@ class _CharacterDetailsScreenState extends State<CharacterDetailsScreen> {
 
   Widget buildSliverAppBar() {
     return SliverAppBar(
+      leading: IconButton(
+        onPressed: () {
+          Navigator.pop(context);
+        },
+        icon: const Icon(
+          Icons.arrow_back,
+          color: Colors.blueGrey,
+        ),
+      ),
       expandedHeight: 600,
       pinned: true,
       stretch: true,
@@ -112,7 +120,7 @@ class _CharacterDetailsScreenState extends State<CharacterDetailsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: MyColors.myGrey,
+      backgroundColor: Colors.blueGrey,
       body: CustomScrollView(
         slivers: [
           buildSliverAppBar(),
@@ -129,13 +137,25 @@ class _CharacterDetailsScreenState extends State<CharacterDetailsScreen> {
                     height: 30,
                   ),
                   buildCharacterInfo('name : ', widget.character.name),
-                  buildDivider(endIndent: 313),
+                  buildDivider(endIndent: 325),
+                  buildCharacterInfo('playedBy : ', widget.character.playedBy),
+                  buildDivider(endIndent: 300),
                   buildCharacterInfo('status  : ', widget.character.status),
                   buildDivider(endIndent: 315),
-                  buildCharacterInfo('species : ', widget.character.species),
-                  buildDivider(endIndent: 300),
                   buildCharacterInfo('gender : ', widget.character.gender),
-                  buildDivider(endIndent: 300),
+                  buildDivider(endIndent: 320),
+                  widget.character.alias.isEmpty
+                      ? Container()
+                      : buildCharacterInfo('alias : ', widget.character.alias),
+                  widget.character.alias.isEmpty
+                      ? Container()
+                      : buildDivider(endIndent: 320),
+                  buildCharacterInfo(
+                      'firstAppearance : ', widget.character.firstAppearance),
+                  buildDivider(endIndent: 240),
+                  buildCharacterInfo(
+                      'lastAppearance : ', widget.character.lastAppearance),
+                  buildDivider(endIndent: 240),
                   const SizedBox(
                     height: 20,
                   ),

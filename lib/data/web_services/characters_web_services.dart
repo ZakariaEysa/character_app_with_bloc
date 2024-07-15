@@ -17,19 +17,15 @@ class CharactersWebServices {
   }
   Future<List<dynamic>> getAllCharacters() async {
     try {
-      // List<dynamic> characters =[];
-      // String base=baseUrl;
-      // for (int i = 1; i <= 28; i++) {
-      //
-      //   Response response = await dio.get(base+i.toString());
-      //   characters.add(response.data);
-      //
-      // }
-      // return characters;
-
-      Response response = await dio.get(baseUrl);
-
-      return response.data["results"];
+      List<dynamic> characters = [];
+      String base = baseUrl;
+      for (int i = 1; i <= 28; i++) {
+        if (i == 27 || i == 7 || i == 10 || i == 18 || i == 21 || i == 22)
+          continue;
+        Response response = await dio.get(base + i.toString());
+        characters.add(response.data);
+      }
+      return characters;
     } catch (e) {
       return [];
     }
@@ -37,8 +33,6 @@ class CharactersWebServices {
 
   Future<List<dynamic>> getQuotes() async {
     final dio = Dio();
-    const apiKey = 'shJDm+FaPDC2Ggb//ynMEw==pSHtYW94h2LoUwev';
-    const url = 'https://api.api-ninjas.com/v1/quotes?category=faith';
 
     try {
       final response = await dio.get(
@@ -55,7 +49,8 @@ class CharactersWebServices {
 
         return response.data;
       } else {
-        debugPrint('Failed to load quotes. Status code: ${response.statusCode}');
+        debugPrint(
+            'Failed to load quotes. Status code: ${response.statusCode}');
         return [];
       }
     } catch (e) {

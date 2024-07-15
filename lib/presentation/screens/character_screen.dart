@@ -194,7 +194,7 @@ class _CharactersScreenState extends State<CharacterScreen> {
                 color: MyColors.myGrey,
               )
             : Container(),
-        backgroundColor: MyColors.myYellow,
+        backgroundColor: Colors.black87,
         title: isSearching ? buildSearchField() : buildAppBarTitle(),
         actions: buildAppBarActions(),
       ),
