@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import '../../data/models/quotes_model.dart';
 import '../../data/repository/characters_repository.dart';
 import 'package:meta/meta.dart';
 
@@ -25,6 +26,15 @@ class CharacterCubit extends Cubit<CharacterState> {
       },
     );
     return characters;
+  }
+
+
+  void getQuotes() {
+    charactersRepository.getQuotes().then(
+          (quote) {
+        emit(QuotLoaded(quote: quote));
+      },
+    );
   }
 
 

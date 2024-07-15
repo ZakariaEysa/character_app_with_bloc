@@ -4,4 +4,4 @@ const baseUrl = "https://rickandmortyapi.com/api/character";
 //const baseUrl = "https://project-heist-rahulv07.vercel.app/characters/";
 
 const charactersScreen = '/';
-const characterDetailsScreen = 'characters_details';
+const characterDetailsScreen = 'character_details_screen';

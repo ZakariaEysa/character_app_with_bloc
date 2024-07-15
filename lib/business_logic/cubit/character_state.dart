@@ -5,19 +5,25 @@ sealed class CharacterState {}
 
 final class CharacterInitial extends CharacterState {}
 final class CharacterLoading extends CharacterState {}
+
+
 final class CharacterSuccess extends CharacterState {
-  final  List<CharacterModel> characterList;
+  final List<CharacterModel> characterList;
 
   CharacterSuccess({required this.characterList});
-
-
 }
+
 final class CharacterFailure extends CharacterState {
   CharacterFailure({required this.message});
 
   final String message;
 
   @override
-  String toString() => 'CharacterFailure { message: $message }';}
+  String toString() => 'CharacterFailure { message: $message }';
+}
 
+final class QuotLoaded extends CharacterState {
+  final QuotesModel quote;
 
+  QuotLoaded({required this.quote});
+}
